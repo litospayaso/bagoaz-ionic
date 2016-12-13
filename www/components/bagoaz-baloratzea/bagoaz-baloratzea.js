@@ -1,7 +1,7 @@
 /*global angular*/
 
 angular.module("starter")
-  .controller("BagoazBaloratzea", ["$rootScope", "$scope", "$location", "$sce", function ($rootScope, $scope, $location, $sce) {
+  .controller("BagoazBaloratzea", ["$rootScope", "$scope", "$location", "$http", function ($rootScope, $scope, $location, $http) {
     "use strict";
     $scope.zorionak=null;
     $scope.ebazpen=null;
@@ -17,6 +17,9 @@ angular.module("starter")
     }else{
       $scope.orainAriketa = null;
       $scope.orainAudio = "/database/audios/"+ orain.audio +".mp3";
+      $http.get($scope.orainAudio).error(function () {
+        $scope.jarraitu();
+      });
     }
 
     $scope.zuzendu = function(){
@@ -56,6 +59,9 @@ angular.module("starter")
       }else{
         $scope.orainAriketa = null;
         $scope.orainAudio = "/database/audios/"+ orain.audio +".mp3";
+        $http.get($scope.orainAudio).error(function () {
+          $scope.jarraitu();
+        });
       }
     };
 
