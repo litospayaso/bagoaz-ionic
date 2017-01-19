@@ -16,7 +16,9 @@ angular.module("starter")
       $scope.orainAudio = null;
     }else{
       $scope.orainAriketa = null;
-      $scope.orainAudio = "/database/audios/"+ orain.audio +".mp3";
+      $scope.orainAudio = "https://raw.githubusercontent.com/litospayaso/bagoaz-ionic/master/www/database/audios/"+ orain.audio +".mp3";
+      var html='<audio controls="controls"><source src="' + $scope.orainAudio + '" type="audio/mpeg"></audio>';
+      $('#htmlAudio').html(html);
       $http.get($scope.orainAudio).error(function () {
         $scope.jarraitu();
       });
@@ -29,7 +31,7 @@ angular.module("starter")
       if($scope.compareStrings($scope.erantzun,orain.erantzun)){//if correct
         $scope.barClass = "bar bar-balanced";
         $scope.ebazpen = ["Oso ondo! ","Zuzen! ","Egoki! "].sort(function() {return Math.random() - 0.5}).pop();
-      }else{//if mistake
+      }else{//if mistakecd
         $scope.barClass = "bar bar-assertive";
         $scope.ebazpen = "Akats:\t" + orain.erantzun;
         ariketak.push(orain);
@@ -58,7 +60,9 @@ angular.module("starter")
         $scope.orainAudio = null;
       }else{
         $scope.orainAriketa = null;
-        $scope.orainAudio = "/database/audios/"+ orain.audio +".mp3";
+        $scope.orainAudio = "https://raw.githubusercontent.com/litospayaso/bagoaz-ionic/master/www/database/audios/"+ orain.audio +".mp3";
+        var html='<audio id="audioTag" autoplay><source src="' + $scope.orainAudio + '" type="audio/mpeg"></audio>';
+        $('#htmlAudio').html(html);
         $http.get($scope.orainAudio).error(function () {
           $scope.jarraitu();
         });
