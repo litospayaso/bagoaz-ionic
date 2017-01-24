@@ -91,11 +91,21 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
 
 angular.module("starter")
-  .controller("indexController", ["$rootScope", "$scope", "$location", "$http", function ($rootScope, $scope, $location, $http) {
+  .controller("indexController", ["$rootScope", "$scope", "$location", "$http", "$ionicPopup", function ($rootScope, $scope, $location, $http, $ionicPopup) {
     "use strict";
 
     $scope.moveScreen = function (targetScreen) {
       $location.path(targetScreen);
+    };
+
+    $scope.wifiAlert = function() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Conexión a internet no detectada',
+        template: 'Para un uso correcto de la aplicación, active la conexión a internet del dispositivo.'
+      });
+
+      alertPopup.then(function(res) {
+      });
     };
 
     $http({
@@ -108,6 +118,7 @@ angular.module("starter")
       localStorage.setItem("databaseCookie", JSON.stringify(data));
     }, function errorCallback(response) { //Error case not connection available
       if (JSON.parse(localStorage.getItem("databaseCookie")) != null){
+        $scope.wifiAlert();
         var databaseCookie = [];
         databaseCookie = JSON.parse(localStorage.getItem("databaseCookie"));
         $rootScope.gaiak = databaseCookie.data.gaiak;
