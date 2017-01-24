@@ -5,11 +5,15 @@ angular.module("starter")
     "use strict";
     $scope.zorionak=null;
     $scope.ebazpen=null;
+    $scope.progress=0;
     var parameters = $location.path().split('/');
     var level = parameters.pop()-1;
     var ariketak = $rootScope.ariketak[level];
     ariketak = ariketak.sort(function() {return Math.random() - 0.5}); //unsorting the array.
     var orain = ariketak.pop();
+    var total =  ariketak.length;
+    $scope.percentageStyle = {width : $scope.progress + '%'};
+
 
     if(orain.euskara){
       $scope.orainAriketa = orain.euskara;
@@ -31,6 +35,9 @@ angular.module("starter")
       if($scope.compareStrings($scope.erantzun,orain.erantzun)){//if correct
         $scope.barClass = "bar bar-balanced";
         $scope.ebazpen = ["Oso ondo! ","Zuzen! ","Egoki! "].sort(function() {return Math.random() - 0.5}).pop();
+        $scope.progress = (total - ariketak.length) * 100 / total === 0 ? 5 : (total - ariketak.length) * 100 / total;
+        $scope.percentageStyle = {width : $scope.progress + '%'};
+
       }else{//if mistakecd
         $scope.barClass = "bar bar-assertive";
         $scope.ebazpen = "Akats:\t" + orain.erantzun;
@@ -67,6 +74,10 @@ angular.module("starter")
           $scope.jarraitu();
         });
       }
+    };
+
+    $scope.play = function () {
+      (document.getElementById('audioTag').paused && document.getElementById('audioTag').currentTime > 0) ? document.getElementById('audioTag').play() :document.getElementById('audioTag').pause();
     };
 
     $scope.compareStrings = function (str1, str2) {
