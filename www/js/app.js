@@ -1,6 +1,6 @@
 // Ionic Starter App
 
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'ionic-toast'])
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -91,21 +91,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
 
 angular.module("starter")
-  .controller("indexController", ["$rootScope", "$scope", "$location", "$http", "$ionicPopup", function ($rootScope, $scope, $location, $http, $ionicPopup) {
+  .controller("indexController", ["$rootScope", "$scope", "$location", "$http", "ionicToast", function ($rootScope, $scope, $location, $http, ionicToast) {
     "use strict";
 
     $scope.moveScreen = function (targetScreen) {
       $location.path(targetScreen);
-    };
-
-    $scope.wifiAlert = function() {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Conexión a internet no detectada',
-        template: 'Para un uso correcto de la aplicación, active la conexión a internet del dispositivo.'
-      });
-
-      alertPopup.then(function(res) {
-      });
     };
 
     $http({
@@ -117,14 +107,15 @@ angular.module("starter")
       // $rootScope.lexiko = data.data.lexiko;
       localStorage.setItem("databaseCookie", JSON.stringify(data));
     }, function errorCallback(response) { //Error case not connection available
+      ionicToast.show('Conexión a internet no detectada. Habilite su conexión para un correcto uso de la aplicación', 'bottom',false, 5000);
       if (JSON.parse(localStorage.getItem("databaseCookie")) != null){
-        $scope.wifiAlert();
         var databaseCookie = [];
         databaseCookie = JSON.parse(localStorage.getItem("databaseCookie"));
         $rootScope.gaiak = databaseCookie.data.gaiak;
         $rootScope.ariketak = databaseCookie.data.ariketak;
         // $rootScope.lexiko = databaseCookie.data.lexiko;
       }else{
+        ionicToast.show('Conexión a internet no detectada. Habilite su conexión para un correcto uso de la aplicación', 'bottom',false, 5000);
         $http.get('database/bagoaz-export.json').success(function (data) {
           $rootScope.gaiak = data.gaiak;
           $rootScope.ariketak = data.ariketak;

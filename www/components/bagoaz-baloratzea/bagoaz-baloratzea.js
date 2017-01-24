@@ -8,7 +8,10 @@ angular.module("starter")
     $scope.progress=0;
     var parameters = $location.path().split('/');
     var level = parameters.pop()-1;
-    var ariketak = $rootScope.ariketak[level];
+    var ariketak = [];
+    $rootScope.ariketak[level].forEach(function (elem) {
+      ariketak.push(elem);
+    });
     ariketak = ariketak.sort(function() {return Math.random() - 0.5}); //unsorting the array.
     var orain = ariketak.pop();
     var total =  ariketak.length;
